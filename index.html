@@ -10,77 +10,210 @@
             --primary: #2563EB; --danger: #DC2626; --warning: #F59E0B; --success: #10B981;
             --bg-light: #F3F4F6; --border: #E5E7EB;
         }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
         
-        /* LOGIN CARD */
-        .login-card { background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
-        .logo-icon { width: 70px; height: 70px; background: var(--primary); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1.5rem; }
-        input, select { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border: 2px solid var(--border); border-radius: 10px; }
-        .btn { width: 100%; padding: 1rem; border: none; border-radius: 10px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; margin-top: 1rem; }
+        /* LOGIN PAGE */
+        .login-card { background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 100%; max-width: 420px; text-align: center; }
+        .logo-icon { width: 70px; height: 70px; background: var(--primary); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1.5rem; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+        input, select { width: 100%; padding: 0.9rem; margin: 0.6rem 0; border: 2px solid var(--border); border-radius: 12px; font-size: 1rem; }
+        .btn { width: 100%; padding: 1rem; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; margin-top: 1rem; font-size: 1rem; transition: 0.3s; }
+        .btn:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* DASHBOARD */
-        .dashboard { display: none; width: 95%; max-width: 1200px; }
-        .header { background: white; padding: 1.5rem; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-        .card { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .stat-card { text-align: center; }
-        .stat-value { font-size: 2rem; font-weight: bold; margin: 0.5rem 0; }
+        /* DASHBOARD LAYOUT */
+        #dashboardPage { display: none; width: 95%; max-width: 1300px; padding: 2rem 0; }
+        .header { background: white; padding: 1.5rem 2rem; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .avatar { width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
         
-        .main-content { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
-        .alert-item { padding: 1rem; border-radius: 10px; border-left: 5px solid var(--danger); background: #FEF2F2; margin-top: 1rem; }
-        .badge { padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: white; font-weight: bold; }
-        .bg-danger { background: var(--danger); }
+        /* STATS GRID */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card { background: white; padding: 1.8rem; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .stat-label { color: #6B7280; font-size: 0.9rem; font-weight: 600; }
+        .stat-value { font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0; }
+        .progress-bar { width: 100%; height: 8px; background: #E5E7EB; border-radius: 10px; margin-top: 10px; }
+        .progress-fill { height: 100%; background: var(--success); border-radius: 10px; }
+
+        /* MAIN CONTENT AREA */
+        .main-content { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* ALERTS */
+        .alert-box { border-left: 6px solid var(--danger); background: #FFF1F2; padding: 1.2rem; border-radius: 12px; margin-bottom: 1rem; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from {opacity: 0; transform: translateX(-20px);} to {opacity: 1; transform: translateX(0);} }
+        .badge { padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.75rem; font-weight: 800; color: white; display: inline-block; margin-bottom: 0.5rem; }
+        
+        /* ACTIVITY LOG */
+        .activity-list { list-style: none; }
+        .activity-item { padding: 1rem 0; border-bottom: 1px solid #F3F4F6; display: flex; gap: 1rem; align-items: center; }
+        .activity-item:last-child { border-bottom: none; }
+        .time { font-size: 0.75rem; color: #9CA3AF; }
+
+        .btn-scan { background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
     <div id="loginPage" class="login-card">
         <div class="logo-icon">🛡️</div>
-        <h2>HCMS Secure</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Sistem Keamanan Rumah Sakit</p>
-        <select id="role">
-            <option value="Admin">IT Security (Admin)</option>
-            <option value="Dokter">Tenaga Medis (Dokter)</option>
-        </select>
-        <input type="text" placeholder="Username" value="admin@hospital.com">
-        <input type="password" placeholder="Password" value="password123">
-        <button class="btn" onclick="login()">LOGIN SEKARANG</button>
+        <h1 style="margin-bottom: 0.5rem; font-size: 1.8rem;">HCMS System</h1>
+        <p style="color: #666; margin-bottom: 2rem;">Healthcare Cybersecurity Management</p>
+        
+        <div style="text-align: left;">
+            <label style="font-weight: 600; font-size: 0.9rem;">Pilih Peran:</label>
+            <select id="role">
+                <option value="Admin">IT Security Administrator</option>
+                <option value="Dokter">Medical Doctor</option>
+            </select>
+            
+            <label style="font-weight: 600; font-size: 0.9rem;">Email:</label>
+            <input type="text" id="userEmail" placeholder="admin@hospital.com">
+            
+            <label style="font-weight: 600; font-size: 0.9rem;">Password:</label>
+            <input type="password" placeholder="••••••••">
+        </div>
+
+        <button class="btn" onclick="prosesLogin()">🔐 MASUK KE SISTEM</button>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 1.5rem;">Secure Encrypted Connection Active</p>
     </div>
 
-    <div id="dashboardPage" class="dashboard">
+    <div id="dashboardPage">
         <div class="header">
-            <div>
-                <h2 id="greet">Halo, Admin!</h2>
-                <p style="color: #666;">Status Keamanan: <span style="color: var(--success); font-weight: bold;">TERPROTEKSI</span></p>
+            <div class="user-profile">
+                <div class="avatar" id="avatarInitial">A</div>
+                <div>
+                    <h2 id="welcomeUser">Halo, Admin!</h2>
+                    <p id="userStatus" style="font-size: 0.85rem; color: #6B7280;">Level Akses: Administrator</p>
+                </div>
             </div>
-            <button class="btn" style="width: auto; margin: 0; background: #666;" onclick="location.reload()">LOGOUT</button>
+            <button class="btn" style="width: auto; margin: 0; background: #EF4444;" onclick="location.reload()">🚪 KELUAR</button>
         </div>
 
         <div class="stats-grid">
-            <div class="card stat-card">
-                <p>Security Score</p>
-                <div class="stat-value" style="color: var(--primary)">98%</div>
-                <p style="font-size: 0.8rem; color: var(--success)">↑ 2% dari bulan lalu</p>
+            <div class="card">
+                <p class="stat-label">SKOR KEAMANAN</p>
+                <div class="stat-value" style="color: var(--success)">98.2%</div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 98%"></div></div>
             </div>
-            <div class="card stat-card">
-                <p>Active Threats</p>
-                <div class="stat-value" style="color: var(--danger)">0</div>
-                <p style="font-size: 0.8rem; color: #666;">Semua ancaman diblokir</p>
+            <div class="card">
+                <p class="stat-label">ANCAMAN DIBLOKIR</p>
+                <div class="stat-value" style="color: var(--primary)">1,284</div>
+                <p style="color: #10B981; font-size: 0.8rem; font-weight: 700;">▲ 12% Minggu ini</p>
             </div>
-            <div class="card stat-card">
-                <p>Data Encryption</p>
-                <div class="stat-value" style="color: var(--success)">AES-256</div>
-                <p style="font-size: 0.8rem; color: #666;">End-to-end active</p>
+            <div class="card">
+                <p class="stat-label">STATUS ENKRIPSI</p>
+                <div class="stat-value" style="color: var(--warning)">AKTIF</div>
+                <p style="color: #6B7280; font-size: 0.8rem;">AES-256 Bit Protocol</p>
             </div>
-            <div class="card stat-card">
-                <p>Compliance</p>
-                <div class="stat-value" style="color: var(--warning)">HIPAA</div>
-                <p style="font-size: 0.8rem; color: #666;">Passed audit 2024</p>
+            <div class="card">
+                <p class="stat-label">KEPATUHAN (HIPAA)</p>
+                <div class="stat-value" style="color: #7C3AED;">VALID</div>
+                <p style="color: #6B7280; font-size: 0.8rem;">Audit Terakhir: Jan 2026</p>
             </div>
         </div>
 
         <div class="main-content">
             <div class="card">
-                <div style="display: flex; justify-content: space-between;">
-                    <h3>🚨 Security Logs (Real-time)</h3>
-                    <button
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3 class="card-title">🚨 Log Keamanan Real-time</h3>
+                    <button class="btn-scan" onclick="startScan()">🔍 Mulai Scan Sistem</button>
+                </div>
+                
+                <div id="scanMsg" class="hidden" style="padding: 1rem; background: #E0F2FE; border-radius: 10px; margin-bottom: 1rem; color: #0369A1; font-weight: bold;">
+                    ⏳ Sedang memindai seluruh database...
+                </div>
+
+                <div class="alert-box">
+                    <span class="badge" style="background: var(--danger);">KRITIS</span>
+                    <p><strong>Upaya Brute Force Terdeteksi</strong></p>
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">IP: 103.44.1.20 | Status: <span style="color: var(--success); font-weight: bold;">Diblokir</span></p>
+                    <p class="time">1 menit yang lalu</p>
+                </div>
+
+                <div class="alert-box" style="border-left-color: var(--warning); background: #FFFBEB;">
+                    <span class="badge" style="background: var(--warning);">PERINGATAN</span>
+                    <p><strong>Akses File Pasien Tidak Biasa</strong></p>
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">User: Dr. Sarah | Deskripsi: Download massal rekord medis.</p>
+                    <p class="time">15 menit yang lalu</p>
+                </div>
+            </div>
+
+            <div>
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 class="card-title">👥 Aktivitas Terbaru</h3>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <span style="font-size: 1.2rem;">🔐</span>
+                            <div>
+                                <p style="font-size: 0.9rem;"><b>Admin</b> merubah aturan Firewall</p>
+                                <p class="time">5 menit yang lalu</p>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <span style="font-size: 1.2rem;">🩺</span>
+                            <div>
+                                <p style="font-size: 0.9rem;"><b>Dr. Sarah</b> Login ke sistem</p>
+                                <p class="time">18 menit yang lalu</p>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <span style="font-size: 1.2rem;">⚙️</span>
+                            <div>
+                                <p style="font-size: 0.9rem;">Sistem Update Otomatis Selesai</p>
+                                <p class="time">1 jam yang lalu</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" id="adminToolCard" style="background: #1E293B; color: white;">
+                    <h3 class="card-title" style="color: white;">🛡️ Admin Security Tools</h3>
+                    <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 1rem;">Hanya tersedia untuk level Administrator.</p>
+                    <button class="btn" style="background: var(--danger); margin-bottom: 0.5rem;" onclick="alert('SYSTEM LOCKDOWN AKTIF!')">🚨 EMERGENCY LOCKDOWN</button>
+                    <button class="btn" style="background: #334155;">📋 DOWNLOAD AUDIT LOG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function prosesLogin() {
+            const role = document.getElementById('role').value;
+            const email = document.getElementById('userEmail').value || "user@hospital.com";
+            
+            // Animasi Transisi
+            document.getElementById('loginPage').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').style.display = 'block';
+                document.body.style.background = "#F3F4F6";
+                document.body.style.display = "block";
+                
+                // Set Nama & Peran
+                document.getElementById('welcomeUser').innerText = "Halo, " + role + "!";
+                document.getElementById('avatarInitial').innerText = role.charAt(0);
+                
+                if(role === "Dokter") {
+                    document.getElementById('userStatus').innerText = "Level Akses: Tenaga Medis";
+                    document.getElementById('adminToolCard').classList.add('hidden');
+                } else {
+                    document.getElementById('userStatus').innerText = "Level Akses: Administrator";
+                    document.getElementById('adminToolCard').classList.remove('hidden');
+                }
+            }, 500);
+        }
+
+        function startScan() {
+            const msg = document.getElementById('scanMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.innerText = "✅ Scan Selesai: Sistem 100% Aman.";
+                msg.style.background = "#DCFCE7";
+                msg.style.color = "#166534";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
