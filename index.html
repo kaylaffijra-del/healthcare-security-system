@@ -7,81 +7,102 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #2563EB;
-            --danger: #DC2626;
-            --warning: #F59E0B;
-            --success: #10B981;
-            --bg-light: #F9FAFB;
-            --text-dark: #1F2937;
-            --border: #E5E7EB;
+            --primary: #2563EB; --danger: #DC2626; --warning: #F59E0B; --success: #10B981;
+            --bg-light: #F9FAFB; --text-dark: #1F2937; --border: #E5E7EB;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
         }
+        .container { width: 100%; max-width: 1200px; padding: 2rem; display: none; }
         .login-card {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: var(--shadow);
-            width: 100%;
-            max-width: 450px;
+            background: white; border-radius: 20px; padding: 3rem;
+            box-shadow: var(--shadow); width: 100%; max-width: 450px; text-align: center;
         }
         .logo-icon {
-            width: 80px; height: 80px;
-            background: linear-gradient(135deg, var(--primary), #7C3AED);
-            border-radius: 20px;
+            width: 80px; height: 80px; background: var(--primary); border-radius: 20px;
             display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 2.5rem; margin: 0 auto 1rem;
+            color: white; font-size: 2.5rem; margin: 0 auto 1.5rem;
         }
-        .form-group { margin-bottom: 1.5rem; }
         input, select {
-            width: 100%; padding: 0.875rem;
+            width: 100%; padding: 0.8rem; margin-bottom: 1rem;
             border: 2px solid var(--border); border-radius: 10px;
         }
         .btn {
-            width: 100%; padding: 1rem; border: none;
-            border-radius: 10px; cursor: pointer; font-weight: 600;
+            width: 100%; padding: 1rem; border: none; border-radius: 10px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .dashboard { display: none; background: white; padding: 2rem; border-radius: 20px; width: 90%; max-width: 1200px; }
+        .dashboard-card { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-item { text-align: center; padding: 1rem; border-radius: 10px; background: var(--bg-light); }
+        .alert-list { border-left: 5px solid var(--danger); padding-left: 1rem; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
+
     <div id="loginPage" class="login-card">
         <div class="logo-icon">🔒</div>
-        <h2 style="text-align:center; margin-bottom: 1rem;">HCMS Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <select id="role" required>
-                    <option value="admin">Admin / IT Security</option>
-                    <option value="doctor">Doctor</option>
-                </select>
-            </div>
-            <div class="form-group"><input type="text" placeholder="Username" required></div>
-            <div class="form-group"><input type="password" placeholder="Password" required></div>
-            <button type="submit" class="btn btn-primary">🔐 Login Secure</button>
-        </form>
+        <h2>HCMS Secure Login</h2>
+        <p style="margin-bottom: 2rem; color: #666;">Sistem Keamanan Siber Rumah Sakit</p>
+        <select id="role">
+            <option value="admin">Admin / IT Security</option>
+            <option value="doctor">Dokter</option>
+        </select>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button class="btn btn-primary" onclick="login()">MASUK SISTEM</button>
     </div>
 
-    <div id="dashboardPage" class="dashboard">
-        <h1>Dashboard HCMS Aktif</h1>
-        <p>Selamat datang di sistem manajemen keamanan rumah sakit.</p>
-        <button onclick="location.reload()" class="btn btn-primary" style="width: 200px; margin-top: 20px;">Logout</button>
+    <div id="dashboardPage" class="container">
+        <div class="dashboard-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 id="welcomeText">🛡️ Security Dashboard: Admin</h2>
+            <button class="btn btn-primary" style="width:auto;" onclick="location.reload()">Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item"><h3>Skor Keamanan</h3><h2 style="color:var(--success)">92%</h2></div>
+            <div class="stat-item"><h3>Ancaman Aktif</h3><h2 style="color:var(--danger)">3</h2></div>
+            <div class="stat-item"><h3>Enkripsi Data</h3><h2 style="color:var(--primary)">Aktif</h2></div>
+            <div class="stat-item"><h3>Status Server</h3><h2 style="color:var(--success)">Normal</h2></div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>🚨 Peringatan Keamanan Real-time</h3>
+            <div class="alert-list" style="margin-top: 1rem;">
+                <p><strong>[KRITIS]</strong> Upaya serangan Brute Force terdeteksi dari IP 182.1.0.55</p>
+                <p style="color: #666; font-size: 0.8rem;">2 menit yang lalu</p>
+                <hr style="margin: 0.5rem 0;">
+                <p><strong>[TINGGI]</strong> Device perawat "Nurse-PC-04" terdeteksi menggunakan malware</p>
+                <p style="color: #666; font-size: 0.8rem;">15 menit yang lalu</p>
+            </div>
+        </div>
+
+        <div id="adminTools" class="dashboard-card">
+            <h3>🛠️ IT Security Tools</h3>
+            <div style="display:flex; gap: 1rem; margin-top:1rem;">
+                <button class="btn btn-primary" onclick="alert('Memulai Scan Virus...')">🔍 Scan Virus</button>
+                <button class="btn btn-primary" style="background:var(--warning)" onclick="alert('Laporan HIPAA dibuat')">📋 Laporan Kepatuhan</button>
+                <button class="btn btn-primary" style="background:var(--danger)" onclick="alert('Firewall diperketat!')">🔥 Lockdown System</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function login() {
+            const role = document.getElementById('role').value;
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('dashboardPage').style.display = 'block';
-            document.body.style.background = '#f3f4f6';
-        });
+            document.body.style.background = '#f0f2f5';
+            
+            if(role === 'doctor') {
+                document.getElementById('welcomeText').innerText = "🩺 Dashboard Dokter: Dr. Sarah";
+                document.getElementById('adminTools').classList.add('hidden');
+            }
+        }
     </script>
 </body>
 </html>
