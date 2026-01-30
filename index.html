@@ -1,89 +1,47 @@
+
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Healthcare Security System</title>
+    <title>HCMS Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #4f46e5; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-        
-        /* Tampilan Login */
-        #loginPage { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 350px; text-align: center; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-login { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        
-        /* Tampilan Dashboard (Awalnya Sembunyi) */
-        #dashboardPage { display: none; width: 90%; max-width: 1100px; background: #f3f4f6; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #ddd; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .stat-card h1 { font-size: 32px; margin: 10px 0; }
-        .alert-section { background: #fee2e2; border-left: 5px solid #ef4444; padding: 15px; margin-top: 20px; border-radius: 8px; }
+        body { font-family: sans-serif; background: #4f46e5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: white; padding: 40px; border-radius: 20px; text-align: center; width: 300px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #dashboard { display: none; background: #f3f4f6; width: 90%; max-width: 800px; padding: 20px; border-radius: 15px; }
     </style>
 </head>
 <body>
 
-    <div id="loginPage">
-        <h1 style="color: #2563eb; margin-bottom: 10px;">HCMS Login</h1>
-        <p style="color: #666; margin-bottom: 20px;">Sistem Keamanan Medis</p>
-        
-        <label style="display:block; text-align:left; font-size:12px; font-weight:bold;">ROLE:</label>
-        <select id="pilihRole">
-            <option value="Admin IT">Admin IT Security</option>
-            <option value="Dokter">Dokter Spesialis</option>
+    <div id="loginPage" class="box">
+        <h2 style="color:#2563eb">HCMS Login</h2>
+        <select id="role">
+            <option value="Admin IT">Admin IT</option>
+            <option value="Dokter">Dokter</option>
         </select>
-        
         <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        
-        <button type="button" class="btn-login" onclick="masukKeSistem()">LOGIN SEKARANG</button>
+        <button onclick="masuk()">LOG IN</button>
     </div>
 
-    <div id="dashboardPage">
-        <div class="header">
-            <h2 id="teksSelamat">Dashboard</h2>
-            <button onclick="location.reload()" style="background:#ef4444; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">LOGOUT</button>
-        </div>
-
-        <div class="grid">
-            <div class="stat-card">
-                <p style="color:#666">Security Score</p>
-                <h1 style="color:#10b981">98.2%</h1>
+    <div id="dashboard">
+        <div style="background:white; padding:20px; border-radius:10px;">
+            <h2 id="msg">Selamat Datang</h2>
+            <hr>
+            <div style="display:flex; justify-content:space-around; margin-top:20px;">
+                <div><p>Security Score</p><h1>98%</h1></div>
+                <div><p>Threats</p><h1 style="color:red">0</h1></div>
             </div>
-            <div class="stat-card">
-                <p style="color:#666">Active Threats</p>
-                <h1 style="color:#ef4444">0</h1>
-            </div>
-            <div class="stat-card">
-                <p style="color:#666">Database Status</p>
-                <h1 style="color:#2563eb">Encrypted</h1>
-            </div>
-        </div>
-
-        <div class="alert-section">
-            <h3 style="color:#b91c1c; margin-bottom:10px;">⚠️ Real-time Security Log:</h3>
-            <p style="color:#444;">• IP 192.168.1.1 mencoba akses ilegal [DIBLOKIR]</p>
-            <p style="color:#444; margin-top:5px;">• Semua data pasien aman di bawah enkripsi AES-256.</p>
+            <button onclick="location.reload()" style="background:red; margin-top:20px;">LOGOUT</button>
         </div>
     </div>
 
     <script>
-        function masukKeSistem() {
-            // Ambil role yang dipilih
-            var roleAktif = document.getElementById('pilihRole').value;
-            
-            // Sembunyikan Login, Tampilkan Dashboard
+        function masuk() {
+            var r = document.getElementById('role').value;
             document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('dashboardPage').style.display = 'block';
-            
-            // Ganti background body
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('msg').innerText = "Halo, " + r;
             document.body.style.background = "#f3f4f6";
-            
-            // Ganti teks sambutan
-            document.getElementById('teksSelamat').innerText = "Selamat Datang, " + roleAktif;
-            
-            // Console log untuk memastikan fungsi jalan
-            console.log("Login Berhasil sebagai " + roleAktif);
         }
     </script>
 </body>
