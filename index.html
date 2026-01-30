@@ -3,106 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Cybersecurity Management System (HCMS)</title>
+    <title>HCMS - Advanced Security System</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #2563EB; --danger: #DC2626; --warning: #F59E0B; --success: #10B981;
-            --bg-light: #F9FAFB; --text-dark: #1F2937; --border: #E5E7EB;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --bg: #F3F4F6; --card: #FFFFFF; --text: #1F2937;
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-        }
-        .container { width: 100%; max-width: 1200px; padding: 2rem; display: none; }
-        .login-card {
-            background: white; border-radius: 20px; padding: 3rem;
-            box-shadow: var(--shadow); width: 100%; max-width: 450px; text-align: center;
-        }
-        .logo-icon {
-            width: 80px; height: 80px; background: var(--primary); border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 2.5rem; margin: 0 auto 1.5rem;
-        }
-        input, select {
-            width: 100%; padding: 0.8rem; margin-bottom: 1rem;
-            border: 2px solid var(--border); border-radius: 10px;
-        }
-        .btn {
-            width: 100%; padding: 1rem; border: none; border-radius: 10px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .btn-primary { background: var(--primary); color: white; }
-        .dashboard-card { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-        .stat-item { text-align: center; padding: 1rem; border-radius: 10px; background: var(--bg-light); }
-        .alert-list { border-left: 5px solid var(--danger); padding-left: 1rem; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; }
+        .container { width: 95%; max-width: 1200px; padding: 20px; display: none; }
+        
+        /* Login Card */
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
+        .logo-box { width: 70px; height: 70px; background: var(--primary); color: white; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 20px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid #ddd; border-radius: 10px; }
+        
+        /* Dashboard Layout */
+        .header { background: white; padding: 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .user-profile { display: flex; align-items: center; gap: 15px; }
+        .avatar { width: 45px; height: 45px; background: var(--primary); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .stat-card h2 { font-size: 28px; margin: 10px 0; }
+
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .alert-item { padding: 12px; border-left: 5px solid var(--danger); background: #FEF2F2; border-radius: 8px; margin-top: 10px; }
+        
+        .btn { padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-main { background: var(--primary); color: white; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
     <div id="loginPage" class="login-card">
-        <div class="logo-icon">🔒</div>
-        <h2>HCMS Secure Login</h2>
-        <p style="margin-bottom: 2rem; color: #666;">Sistem Keamanan Siber Rumah Sakit</p>
+        <div class="logo-box">🛡️</div>
+        <h2>HCMS Login</h2>
         <select id="role">
-            <option value="admin">Admin / IT Security</option>
-            <option value="doctor">Dokter</option>
+            <option value="Admin">Admin / IT Security</option>
+            <option value="Doctor">Doctor (Dr. Sarah Johnson)</option>
         </select>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button class="btn btn-primary" onclick="login()">MASUK SISTEM</button>
+        <input type="text" placeholder="Username" id="user">
+        <input type="password" placeholder="Password" id="pass">
+        <input type="text" placeholder="MFA Code (123456)" id="mfa">
+        <button class="btn btn-main" onclick="handleLogin()">🔐 SECURE LOGIN</button>
     </div>
 
     <div id="dashboardPage" class="container">
-        <div class="dashboard-card" style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 id="welcomeText">🛡️ Security Dashboard: Admin</h2>
-            <button class="btn btn-primary" style="width:auto;" onclick="location.reload()">Logout</button>
+        <div class="header">
+            <div class="user-profile">
+                <div class="avatar" id="userIcon">A</div>
+                <div>
+                    <strong id="displayName">Admin User</strong><br>
+                    <small id="displayRole">Security Level: 5</small>
+                </div>
+            </div>
+            <button class="btn" style="width: auto; background: #eee;" onclick="location.reload()">Logout</button>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-item"><h3>Skor Keamanan</h3><h2 style="color:var(--success)">92%</h2></div>
-            <div class="stat-item"><h3>Ancaman Aktif</h3><h2 style="color:var(--danger)">3</h2></div>
-            <div class="stat-item"><h3>Enkripsi Data</h3><h2 style="color:var(--primary)">Aktif</h2></div>
-            <div class="stat-item"><h3>Status Server</h3><h2 style="color:var(--success)">Normal</h2></div>
+            <div class="stat-card"><h3>Security Score</h3><h2 style="color: var(--success)">92%</h2></div>
+            <div class="stat-card"><h3>Active Threats</h3><h2 style="color: var(--danger)">3</h2></div>
+            <div class="stat-card"><h3>Data Encrypted</h3><h2 style="color: var(--primary)">100%</h2></div>
+            <div class="stat-card"><h3>System Status</h3><h2 style="color: var(--success)">Online</h2></div>
         </div>
 
-        <div class="dashboard-card">
-            <h3>🚨 Peringatan Keamanan Real-time</h3>
-            <div class="alert-list" style="margin-top: 1rem;">
-                <p><strong>[KRITIS]</strong> Upaya serangan Brute Force terdeteksi dari IP 182.1.0.55</p>
-                <p style="color: #666; font-size: 0.8rem;">2 menit yang lalu</p>
-                <hr style="margin: 0.5rem 0;">
-                <p><strong>[TINGGI]</strong> Device perawat "Nurse-PC-04" terdeteksi menggunakan malware</p>
-                <p style="color: #666; font-size: 0.8rem;">15 menit yang lalu</p>
-            </div>
-        </div>
-
-        <div id="adminTools" class="dashboard-card">
-            <h3>🛠️ IT Security Tools</h3>
-            <div style="display:flex; gap: 1rem; margin-top:1rem;">
-                <button class="btn btn-primary" onclick="alert('Memulai Scan Virus...')">🔍 Scan Virus</button>
-                <button class="btn btn-primary" style="background:var(--warning)" onclick="alert('Laporan HIPAA dibuat')">📋 Laporan Kepatuhan</button>
-                <button class="btn btn-primary" style="background:var(--danger)" onclick="alert('Firewall diperketat!')">🔥 Lockdown System</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function login() {
-            const role = document.getElementById('role').value;
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('dashboardPage').style.display = 'block';
-            document.body.style.background = '#f0f2f5';
-            
-            if(role === 'doctor') {
-                document.getElementById('welcomeText').innerText = "🩺 Dashboard Dokter: Dr. Sarah";
-                document.getElementById('adminTools').classList.add('hidden');
-            }
-        }
-    </script>
-</body>
-</html>
+        <div class="main-grid">
