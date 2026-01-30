@@ -2,94 +2,62 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Cybersecurity System</title>
+    <title>Healthcare Security Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #667eea; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { width: 100%; padding: 12px; background: #2563EB; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
         
-        /* LOGIN CARD */
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 100%; max-width: 400px; text-align: center; display: block; }
-        .logo-icon { width: 70px; height: 70px; background: #2563EB; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 1rem; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: #2563EB; color: white; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; }
-        .btn:hover { background: #1d4ed8; }
-
-        /* DASHBOARD (Disembunyikan dulu) */
-        #dashboardPage { display: none; width: 95%; max-width: 1200px; margin: 20px auto; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .stat-card { text-align: center; }
-        .stat-value { font-size: 2.5rem; font-weight: bold; color: #2563EB; }
-        .alert-box { border-left: 5px solid #DC2626; background: #FEF2F2; padding: 15px; border-radius: 10px; }
+        /* DASHBOARD */
+        #dashboard { display: none; width: 90%; max-width: 1000px; background: #f4f7f6; padding: 20px; border-radius: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .stat { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .alert { background: #fee2e2; border-left: 5px solid #dc2626; padding: 15px; margin-top: 20px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="loginPage" class="login-card">
-        <div class="logo-icon">🛡️</div>
-        <h2>HCMS Login</h2>
-        <p style="color: #666; margin-bottom: 20px;">Masuk ke Sistem Keamanan</p>
-        
-        <select id="role">
+    <div id="loginBox" class="card">
+        <h2>🔒 HCMS Login</h2>
+        <p>Sistem Keamanan Pasien</p>
+        <select id="userRole">
             <option value="Admin">IT Security (Admin)</option>
-            <option value="Dokter">Tenaga Medis (Dokter)</option>
+            <option value="Dokter">Dokter Spesialis</option>
         </select>
-        <input type="text" id="username" placeholder="Username (Bebas)">
-        <input type="password" id="password" placeholder="Password (Bebas)">
-        
-        <button type="button" class="btn" onclick="masukKeDashboard()">LOG IN SEKARANG</button>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button class="btn" onclick="jalanLogin()">MASUK KE SISTEM</button>
     </div>
 
-    <div id="dashboardPage">
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 id="welcomeMsg">Selamat Datang, Admin</h2>
-            <button onclick="location.reload()" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #6B7280; color: white;">LOGOUT</button>
+    <div id="dashboard">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 10px;">
+            <h2 id="txtWelcome">Dashboard</h2>
+            <button onclick="location.reload()" style="background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Logout</button>
         </div>
 
-        <div class="stats-grid">
-            <div class="card stat-card">
-                <p>Security Score</p>
-                <div class="stat-value">98.2%</div>
-            </div>
-            <div class="card stat-card">
-                <p>Active Threats</p>
-                <div class="stat-value" style="color: #DC2626;">0</div>
-            </div>
-            <div class="card stat-card">
-                <p>Status Data</p>
-                <div class="stat-value" style="color: #10B981;">Encrypted</div>
-            </div>
+        <div class="grid">
+            <div class="stat"><h3>Security Score</h3><h1 style="color:#2563EB">98.2%</h1></div>
+            <div class="stat"><h3>Active Threats</h3><h1 style="color:#dc2626">0</h1></div>
+            <div class="stat"><h3>System Status</h3><h1 style="color:#10b981">SAFE</h1></div>
         </div>
 
-        <div class="card">
-            <h3>🚨 Recent Security Alerts</h3>
-            <div class="alert-box" style="margin-top: 15px;">
-                <p><strong>Brute Force Attempt Blocked!</strong></p>
-                <p style="font-size: 0.9rem; color: #666;">Sistem otomatis memblokir IP 192.168.1.105 pada 03:00 AM.</p>
-            </div>
+        <div class="alert">
+            <h4>🚨 Security Log:</h4>
+            <p>• Attempted unauthorized access from IP 182.1.0.55 [BLOCKED]</p>
+            <p>• Database encryption: AES-256 Active.</p>
         </div>
     </div>
 
     <script>
-        // Fungsi ini yang bikin tombol login jalan
-        function masukKeDashboard() {
-            // 1. Ambil data peran
-            var role = document.getElementById('role').value;
-            
-            // 2. Sembunyikan halaman login
-            document.getElementById('loginPage').style.display = 'none';
-            
-            // 3. Munculkan halaman dashboard
-            document.getElementById('dashboardPage').style.display = 'block';
-            
-            // 4. Update teks sambutan
-            document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + role;
-            
-            // 5. Ubah background biar lebih rapi
-            document.body.style.background = "#F3F4F6";
-            document.body.style.alignItems = "flex-start";
-            document.body.style.paddingTop = "40px";
+        function jalanLogin() {
+            const role = document.getElementById('userRole').value;
+            // SEMBUNYIKAN LOGIN, MUNCULKAN DASHBOARD
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('txtWelcome').innerText = "Selamat Datang, " + role;
+            document.body.style.background = "#e2e8f0";
         }
     </script>
 </body>
