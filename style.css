@@ -1,0 +1,19 @@
+/* Ini adalah file untuk mengatur tampilan agar keren */
+:root {
+    --primary: #2563EB;
+    --danger: #DC2626;
+    --success: #10B981;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+}
+
+.login-card, .card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
