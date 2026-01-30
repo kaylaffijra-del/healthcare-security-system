@@ -2,63 +2,48 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Healthcare Security Dashboard</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #667eea; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .btn { width: 100%; padding: 12px; background: #2563EB; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        
-        /* DASHBOARD */
-        #dashboard { display: none; width: 90%; max-width: 1000px; background: #f4f7f6; padding: 20px; border-radius: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .stat { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .alert { background: #fee2e2; border-left: 5px solid #dc2626; padding: 15px; margin-top: 20px; border-radius: 5px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCMS - Healthcare Security System</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="loginBox" class="card">
-        <h2>🔒 HCMS Login</h2>
-        <p>Sistem Keamanan Pasien</p>
-        <select id="userRole">
-            <option value="Admin">IT Security (Admin)</option>
-            <option value="Dokter">Dokter Spesialis</option>
+    <div id="loginPage" class="login-card" style="margin: 100px auto; max-width: 400px; text-align: center;">
+        <div style="font-size: 50px; margin-bottom: 10px;">🔒</div>
+        <h2>HCMS Login</h2>
+        <p style="color: #666; margin-bottom: 20px;">Sistem Keamanan Siber Rumah Sakit</p>
+        
+        <select id="role" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
+            <option value="Admin">Admin / IT Security</option>
+            <option value="Doctor">Dokter</option>
         </select>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button class="btn" onclick="jalanLogin()">MASUK KE SISTEM</button>
+        
+        <input type="text" id="mfaCode" placeholder="Masukkan Kode MFA (123456)" 
+               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd;">
+        
+        <button onclick="login()" 
+                style="width: 100%; padding: 12px; background: #2563EB; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            MASUK KE SISTEM
+        </button>
     </div>
 
-    <div id="dashboard">
-        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 10px;">
-            <h2 id="txtWelcome">Dashboard</h2>
-            <button onclick="location.reload()" style="background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Logout</button>
-        </div>
+    <div id="dashboardPage" style="display: none; padding: 40px; text-align: center;">
+        <div class="card" style="background: white; padding: 30px; border-radius: 20px; display: inline-block; width: 100%; max-width: 800px;">
+            <h1 style="color: #2563EB;">🛡️ Dashboard Keamanan Aktif</h1>
+            <p style="margin: 20px 0; color: #4B5563;">Sistem memantau infrastruktur kesehatan secara real-time.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div style="padding: 20px; background: #F3F4F6; border-radius: 12px;">
+                    <h3>Skor Keamanan</h3>
+                    <h2 style="color: #10B981;">92%</h2>
+                </div>
+                <div style="padding: 20px; background: #F3F4F6; border-radius: 12px;">
+                    <h3>Ancaman</h3>
+                    <h2 style="color: #DC2626;">0</h2>
+                </div>
+            </div>
 
-        <div class="grid">
-            <div class="stat"><h3>Security Score</h3><h1 style="color:#2563EB">98.2%</h1></div>
-            <div class="stat"><h3>Active Threats</h3><h1 style="color:#dc2626">0</h1></div>
-            <div class="stat"><h3>System Status</h3><h1 style="color:#10b981">SAFE</h1></div>
-        </div>
-
-        <div class="alert">
-            <h4>🚨 Security Log:</h4>
-            <p>• Attempted unauthorized access from IP 182.1.0.55 [BLOCKED]</p>
-            <p>• Database encryption: AES-256 Active.</p>
-        </div>
-    </div>
-
-    <script>
-        function jalanLogin() {
-            const role = document.getElementById('userRole').value;
-            // SEMBUNYIKAN LOGIN, MUNCULKAN DASHBOARD
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('txtWelcome').innerText = "Selamat Datang, " + role;
-            document.body.style.background = "#e2e8f0";
-        }
-    </script>
-</body>
-</html>
+            <button onclick="location.reload()" style="margin-top: 30px; padding: 10px 20px; cursor: pointer; border-radius:
