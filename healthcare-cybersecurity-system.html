@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Cybersecurity Management System (HCMS)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563EB;
+            --danger: #DC2626;
+            --warning: #F59E0B;
+            --success: #10B981;
+            --bg-light: #F9FAFB;
+            --bg-dark: #111827;
+            --text-dark: #1F2937;
+            --text-light: #F9FAFB;
+            --border: #E5E7EB;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 2rem;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: #F3F4F6;
+            color: var(--text-dark);
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #E5E7EB;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            animation: fadeIn 0.6s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dashboard-header {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .stat-icon.danger { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+        .stat-icon.warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .stat-icon.success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .alert-item {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+
+        .alert-item:hover {
+            transform: translateX(5px);
+        }
+
+        .alert-critical {
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-high {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-medium {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-critical { background: var(--danger); color: white; }
+        .badge-high { background: var(--warning); color: white; }
+        .badge-medium { background: var(--primary); color: white; }
+        .badge-low { background: var(--success); color: white; }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #7C3AED);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #9CA3AF;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="container login-container">
+        <div class="login-card">
+            <div class="logo">
+                <div class="logo-icon">🔒</div>
+                <h1>HCMS</h1>
+                <p>Healthcare Cybersecurity Management System</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="role">Select Role</label>
+                    <div class="input-group">
+                        <span class="input-icon">👤</span>
+                        <select id="role" required>
+                            <option value="">-- Pilih Role --</option>
+                            <option value="admin">Admin / IT Security</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="patient">Patient</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Email / Username</label>
+                    <div class="input-group">
+                        <span class="input-icon">✉️</span>
+                        <input type="text" id="username" placeholder="Masukkan email atau username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <span class="input-icon">🔑</span>
+                        <input type="password" id="password" placeholder="Masukkan password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mfaCode">MFA Code (Demo: 123456)</label>
+                    <div class="input-group">
+                        <span class="input-icon">📱</span>
+                        <input type="text" id="mfaCode" placeholder="Masukkan 6-digit MFA code" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span id="loginBtnText">🔐 Login Secure</span>
+                    <span id="loginLoader" class="loading hidden"></span>
+                </button>
+
+                <button type="button" class="btn btn-secondary" onclick="showDemoCredentials()">
+                    📋 Show Demo Credentials
+                </button>
+            </form>
+
+            <div id="demoInfo" class="hidden" style="margin-top: 1.5rem; padding: 1rem; background: #F3F4F6; border-radius: 10px; font-size: 0.85rem;">
+                <strong>Demo Credentials:</strong><br>
+                <strong>Admin:</strong> admin@hospital.com / Admin@123456<br>
+                <strong>Doctor:</strong> doctor@hospital.com / Doctor@123456<br>
+                <strong>Nurse:</strong> nurse@hospital.com / Nurse@123456<br>
+                <strong>Patient:</strong> patient@hospital.com / Patient@123456<br>
+                <strong>MFA:</strong> 123456 (demo mode)
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardPage" class="container dashboard">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">A</div>
+                <div>
+                    <h2 id="userName">Admin User</h2>
+                    <p id="userRole" style="color: #6B7280; font-size: 0.9rem;">IT Security Administrator</p>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="logout()" style="width: auto; padding: 0.75rem 1.5rem;">
+                🚪 Logout
+            </button>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <!-- Stats will be dynamically generated -->
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🚨 Real-time Security Alerts</h3>
+                    <button class="btn btn-primary" onclick="refreshAlerts()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.875rem;">
+                        🔄 Refresh
+                    </button>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('critical')">Critical</div>
+                    <div class="tab" onclick="switchTab('high')">High</div>
+                    <div class="tab" onclick="switchTab('all')">All Alerts</div>
+                </div>
+
+                <div id="alertsContainer">
+                    <!-- Alerts will be dynamically generated -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Recent Activity</h3>
+                </div>
+                <div id="activityContainer">
+                    <!-- Activities will be dynamically generated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Sections Based on Role -->
+        <div id="adminSection" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🛡️ Security Management Tools</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn btn-primary" onclick="startVulnerabilityScan()">
+                        🔍 Start Vulnerability Scan
+                    </button>
+                    <button class="btn btn-primary" onclick="viewComplianceReport()">
+                        📋 Compliance Report
+                    </button>
+                    <button class="btn btn-primary" onclick="manageIncidents()">
+                        🚨 Incident Management
+                    </button>
+                    <button class="btn btn-primary" onclick="viewAuditLogs()">
+                        📜 Audit Logs
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="doctorSection" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👨‍⚕️ Patient Records Access</h3>
+                </div>
+                <p style="color: #6B7280; margin-bottom: 1rem;">Access patient medical records securely with full audit trail.</p>
+                <button class="btn btn-primary" onclick="accessPatientRecords()">
+                    🗂️ View Patient Records
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scan Modal -->
+    <div id="scanModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔍 Vulnerability Scan</h3>
+                <button class="close-btn" onclick="closeModal('scanModal')">&times;</button>
+            </div>
+            <div id="scanProgress">
+                <p>Scanning system for vulnerabilities...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="scanProgressBar" style="width: 0%"></div>
+                </div>
+                <p id="scanStatus" style="margin-top: 1rem; color: #6B7280;">Initializing scan...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo Data
+        const demoUsers = {
+            'admin@hospital.com': { password: 'Admin@123456', role: 'admin', name: 'Admin User', mfa: '123456' },
+            'doctor@hospital.com': { password: 'Doctor@123456', role: 'doctor', name: 'Dr. Sarah Johnson', mfa: '123456' },
+            'nurse@hospital.com': { password: 'Nurse@123456', role: 'nurse', name: 'Nurse Emily Chen', mfa: '123456' },
+            'patient@hospital.com': { password: 'Patient@123456', role: 'patient', name: 'John Doe', mfa: '123456' }
+        };
+
+        const alertsData = {
+            critical: [
+                { id: 1, title: 'Ransomware Activity Detected', description: 'Multiple files encrypted on Server-03', time: '2 min ago', type: 'critical' },
+                { id: 2, title: 'Unauthorized Admin Access Attempt', description: 'Failed login from unknown IP: 185.220.101.42', time: '15 min ago', type: 'critical' }
+            ],
+            high: [
+                { id: 3, title: 'Unusual Login Pattern', description: 'Dr. Smith logged in from Moscow (unusual location)', time: '1 hour ago', type: 'high' },
+                { id: 4, title: 'Outdated Software Detected', description: 'Windows Server 2012 R2 requires security patch', time: '2 hours ago', type: 'high' }
+            ],
+            medium: [
+                { id: 5, title: 'Failed MFA Attempt', description: 'User entered wrong MFA code 3 times', time: '3 hours ago', type: 'medium' },
+                { id: 6, title: 'Sensitive Data Access', description: 'Large patient data export detected', time: '4 hours ago', type: 'medium' }
+            ]
+        };
+
+        const activitiesData = [
+            { icon: '🔐', color: 'primary', action: 'Admin login successful', time: '5 min ago' },
+            { icon: '🔍', color: 'warning', action: 'Vulnerability scan completed', time: '20 min ago' },
+            { icon: '👤', color: 'success', action: 'New user registered: Dr. Johnson', time: '1 hour ago' },
+            { icon: '📊', color: 'primary', action: 'Compliance report generated', time: '2 hours ago' },
+            { icon: '🚨', color: 'danger', action: 'Security alert: Unauthorized access blocked', time: '3 hours ago' }
+        ];
+
+        let currentUser = null;
+        let currentTab = 'critical';
+
+        // Login function
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const mfaCode = document.getElementById('mfaCode').value;
+            const selectedRole = document.getElementById('role').value;
+
+            // Show loading
+            document.getElementById('loginBtnText').classList.add('hidden');
+            document.getElementById('loginLoader').classList.remove('hidden');
+
+            // Simulate authentication delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Validate credentials
+            const user = demoUsers[username];
+            if (user && user.password === password && user.mfa === mfaCode && user.role === selectedRole) {
+                currentUser = {
+                    username: username,
+                    name: user.name,
+                    role: user.role
+                };
+
+                // Hide login, show dashboard
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').style.display = 'block';
+
+                // Initialize dashboard
+                initializeDashboard();
+            } else {
+                alert('Invalid credentials! Please check username, password, MFA code, and selected role.');
+                document.getElementById('loginBtnText').classList.remove('hidden');
+                document.getElementById('loginLoader').classList.add('hidden');
+            }
+        });
+
+        function showDemoCredentials() {
+            document.getElementById('demoInfo').classList.toggle('hidden');
+        }
+
+        function initializeDashboard() {
+            // Update user info
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = getRoleLabel(currentUser.role);
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
+
+            // Generate stats based on role
+            generateStats();
+
+            // Load alerts
+            loadAlerts();
+
+            // Load activities
+            loadActivities();
+
+            // Show role-specific sections
+            showRoleSections();
+        }
+
+        function getRoleLabel(role) {
+            const labels = {
+                'admin': 'IT Security Administrator',
+                'doctor': 'Medical Doctor',
+                'nurse': 'Registered Nurse',
+                'patient': 'Patient'
+            };
+            return labels[role] || role;
+        }
+
+        function generateStats() {
+            const statsContainer = document.getElementById('statsGrid');
+            let stats = [];
+
+            if (currentUser.role === 'admin') {
+                stats = [
+                    { icon: '🚨', label: 'Active Alerts', value: '12', color: 'danger' },
+                    { icon: '🛡️', label: 'Security Score', value: '87%', color: 'success' },
+                    { icon: '🔍', label: 'Vulnerabilities', value: '24', color: 'warning' },
+                    { icon: '✅', label: 'Compliance Rate', value: '95%', color: 'success' }
+                ];
+            } else if (currentUser.role === 'doctor') {
+                stats = [
+                    { icon: '👥', label: 'Patients Today', value: '18', color: 'primary' },
+                    { icon: '🔐', label: 'Secure Access', value: '100%', color: 'success' },
+                    { icon: '📋', label: 'Records Accessed', value: '42', color: 'primary' },
+                    { icon: '⚠️', label: 'Security Alerts', value: '0', color: 'success' }
+                ];
+            } else if (currentUser.role === 'nurse') {
+                stats = [
+                    { icon: '💉', label: 'Procedures Today', value: '15', color: 'primary' },
+                    { icon: '📊', label: 'Data Updates', value: '38', color: 'primary' },
+                    { icon: '🔒', label: 'Security Training', value: '100%', color: 'success' },
+                    { icon: '⏰', label: 'Session Active', value: '2h 15m', color: 'warning' }
+                ];
+            } else {
+                stats = [
+                    { icon: '📅', label: 'Appointments', value: '3', color: 'primary' },
+                    { icon: '🔐', label: 'Data Privacy', value: 'Protected', color: 'success' },
+                    { icon: '👁️', label: 'Access Logs', value: '8', color: 'primary' },
+                    { icon: '✉️', label: 'Messages', value: '2', color: 'warning' }
+                ];
+            }
+
+            statsContainer.innerHTML = stats.map(stat => `
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon ${stat.color}">${stat.icon}</div>
+                    </div>
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadAlerts() {
+            const container = document.getElementById('alertsContainer');
+            let alerts = [];
+
+            if (currentTab === 'critical') {
+                alerts = alertsData.critical;
+            } else if (currentTab === 'high') {
+                alerts = alertsData.high;
+            } else {
+                alerts = [...alertsData.critical, ...alertsData.high, ...alertsData.medium];
+            }
+
+            container.innerHTML = alerts.map(alert => `
+                <div class="alert-item alert-${alert.type}">
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>${alert.title}</strong>
+                            <span class="badge badge-${alert.type}">${alert.type.toUpperCase()}</span>
+                        </div>
+                        <p style="color: #6B7280; font-size: 0.875rem; margin-bottom: 0.25rem;">${alert.description}</p>
+                        <p style="color: #9CA3AF; font-size: 0.75rem;">${alert.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadActivities() {
+            const container = document.getElementById('activityContainer');
+            container.innerHTML = activitiesData.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon stat-icon ${activity.color}">${activity.icon}</div>
+                    <div style="flex: 1;">
+                        <p style="font-weight: 600; margin-bottom: 0.25rem;">${activity.action}</p>
+                        <p class="activity-time">${activity.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            loadAlerts();
+        }
+
+        function showRoleSections() {
+            if (currentUser.role === 'admin') {
+                document.getElementById('adminSection').classList.remove('hidden');
+            } else if (currentUser.role === 'doctor') {
+                document.getElementById('doctorSection').classList.remove('hidden');
+            }
+        }
+
+        function refreshAlerts() {
+            loadAlerts();
+            showNotification('Alerts refreshed!', 'success');
+        }
+
+        function startVulnerabilityScan() {
+            document.getElementById('scanModal').classList.add('show');
+            let progress = 0;
+            const statuses = [
+                'Scanning network devices...',
+                'Checking software versions...',
+                'Analyzing access controls...',
+                'Testing encryption strength...',
+                'Reviewing security policies...',
+                'Generating report...'
+            ];
+
+            const interval = setInterval(() => {
+                progress += 16.67;
+                document.getElementById('scanProgressBar').style.width = progress + '%';
+                document.getElementById('scanStatus').textContent = statuses[Math.floor(progress / 16.67)] || 'Completing...';
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        closeModal('scanModal');
+                        showNotification('Vulnerability scan completed! 24 vulnerabilities found.', 'warning');
+                    }, 1000);
+                }
+            }, 500);
+        }
+
+        function viewComplianceReport() {
+            showNotification('Generating HIPAA compliance report...', 'primary');
+            setTimeout(() => {
+                showNotification('Compliance Report Ready: 95% compliant. View details in Compliance section.', 'success');
+            }, 2000);
+        }
+
+        function manageIncidents() {
+            showNotification('Opening Incident Management Console...', 'primary');
+        }
+
+        function viewAuditLogs() {
+            showNotification('Loading comprehensive audit logs...', 'primary');
+        }
+
+        function accessPatientRecords() {
+            showNotification('Accessing patient records with full encryption and audit trail...', 'primary');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function showNotification(message, type) {
+            const colors = {
+                'success': '#10B981',
+                'warning': '#F59E0B',
+                'danger': '#DC2626',
+                'primary': '#2563EB'
+            };
+
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type] || colors.primary};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                document.getElementById('dashboardPage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('loginForm').reset();
+                document.getElementById('loginBtnText').classList.remove('hidden');
+                document.getElementById('loginLoader').classList.add('hidden');
+                showNotification('Logged out successfully!', 'success');
+            }
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
